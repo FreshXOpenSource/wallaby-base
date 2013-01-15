@@ -4,10 +4,14 @@
 from setuptools import setup, find_packages
 
 setup(name='wallaby-base',
-      version='0.1.37',
+      version='0.1.38',
       url='https://github.com/FreshXOpenSource/wallaby-base',
       author='FreshX GbR',
       author_email='wallaby@freshx.de',
+      license='BSD',
+      description='Core package for wallaby. Includes messaging infrastructure and generic application logic modules (peers).',
+      long_description=open('README.md').read(),
+      package_data={'': ['LICENSE', 'AUTHORS', 'README.md']},
       classifiers=[
         'Development Status :: 4 - Beta',
         'Framework :: Twisted',
