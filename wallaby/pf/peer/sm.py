@@ -13,10 +13,12 @@ class SMPeer(Peer):
         self._statePillow = statePillow
         self._initState = initState
 
-        if len(states) > 0:
-            self._state = states[0]
-        else:
-            pass #TODO: Throw exception
+        self._state = None
+
+        # if len(states) > 0:
+        #     self._state = states[0]
+        # else:
+        #     pass #TODO: Throw exception
 
         for state in states:
             self._states[state._name] = state
@@ -56,7 +58,7 @@ class SMPeer(Peer):
         # Already in correct state
         if self._state != None and self._state._name == stateName: return
 
-        # print "Switch to state", stateName, "in context", self._contextName
+        # print "Switch to state", stateName, "in context", self._roomName
         if stateName in self._states:
             self._state = self._states[stateName]
             self._throw(self._statePillow, stateName)
