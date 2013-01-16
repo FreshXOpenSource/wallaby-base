@@ -60,6 +60,9 @@ def renderType(val, type, args, edit=False, fct=replaceValue):
             val = ('%02d.%02d.%04d' % (val[2], val[1], val[0]))
         else:
             val = "-"
+    elif isinstance(type, (str, unicode)) and type in ('markdown'):
+        import markdown
+        val = markdown.markdown(val)
     elif isinstance(type, (str, unicode)) and type in ('number' or 'numberedit'):
         if edit:
             try:

@@ -53,6 +53,9 @@ class EmbeddedViewer(UIPeer):
     
         self._resolved = True
 
+    def hasImage(self, name):
+        return self._document.hasAttachment(name)
+
     def getImage(self, name):
         return defer.maybeDeferred(self._document.deferredGetAttachment, name)
 
