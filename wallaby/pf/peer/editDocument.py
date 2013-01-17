@@ -275,7 +275,6 @@ class View(Loading):
         self._catch(EditDocument.In.New, self._create)
         self._catch(EditDocument.In.NewAndSave, self._createAndSave)
         self._catch(EditDocument.In.Remove, self._remove)
-        self._addRouting(EmbeddedViewer.Out.SelectionChanged, Viewer.In.Refresh)
         self._addRouting(DocumentChanger.Out.SelectionChanged, Viewer.In.Refresh)
 
     def _stateSwitched(self):
@@ -300,7 +299,6 @@ class Dirty(OnShadowCopy, State):
         self._catch(EditDocument.In.Resolve, self._resolve)
         self._addRouting(Editor.Out.FieldChanged, Viewer.In.Refresh)
 
-        self._addRouting(EmbeddedViewer.Out.SelectionChanged, Viewer.In.Refresh)
         self._addRouting(DocumentChanger.Out.SelectionChanged, Viewer.In.Refresh)
 
     def _resolve(self, *args):

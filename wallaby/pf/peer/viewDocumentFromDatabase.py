@@ -4,7 +4,6 @@
 from peer import *
 
 class ViewDocumentFromDatabase(Peer):
-    from embeddedViewer import EmbeddedViewer
     from documentChanger import DocumentChanger
     from database import Database
     from viewer import Viewer
@@ -13,7 +12,6 @@ class ViewDocumentFromDatabase(Peer):
 
     Routings = [
         (Database.Out.RequestedDocument, Viewer.In.Document),
-        (EmbeddedViewer.Out.SelectionChanged, Viewer.In.Refresh),
         (DocumentChanger.Out.SelectionChanged, Viewer.In.Refresh)
     ]
 

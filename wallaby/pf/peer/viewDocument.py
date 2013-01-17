@@ -5,7 +5,6 @@ from peer import *
 
 from editDocument import EditDocument
 from documentCache import DocumentCache
-from embeddedViewer import EmbeddedViewer
 from documentChanger import DocumentChanger
 from viewer import Viewer
 
@@ -13,7 +12,6 @@ class ViewDocument(Peer):
     Description = "View a document from the document cache"
 
     Routings = [
-        (EmbeddedViewer.Out.SelectionChanged, Viewer.In.Refresh),
         (DocumentChanger.Out.SelectionChanged, Viewer.In.Refresh)
     ]
 

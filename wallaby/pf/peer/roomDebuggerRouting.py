@@ -4,7 +4,7 @@
 from peer import *
 
 from roomDebugger import RoomDebugger
-from embeddedViewer import EmbeddedViewer
+from documentChanger import DocumentChanger
 # from credentials import Credentials
 from listPeer import ListPeer
 from viewer import Viewer
@@ -29,7 +29,7 @@ class RoomDebuggerRouting(Peer):
         (RoomDebugger.Out.RequestedRooms, Viewer.In.Document),
         (ListPeer.Out.RequestDocument, RoomDebugger.In.RequestRooms),
         (RoomDebugger.Out.RequestedDebugInfo, Viewer.In.Document),
-        (EmbeddedViewer.Out.SelectionChanged, Viewer.In.Refresh)
+        (DocumentChanger.Out.SelectionChanged, Viewer.In.Refresh)
     ]
 
     # FIXME: (RoomDebugger.Out.RequestedActions, Viewer.In.Document),

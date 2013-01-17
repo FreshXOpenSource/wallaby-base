@@ -30,6 +30,8 @@ class DocumentChanger(Peer):
     InsertRow = Pillow.In
     RemoveRow = Pillow.In
 
+    RowInserted = Pillow.Out
+
     InsertKey = Pillow.In
     RemoveKey = Pillow.In
 
@@ -37,7 +39,6 @@ class DocumentChanger(Peer):
     MoveDown = Pillow.In
 
     Select = Pillow.In
-
     SelectionChanged = Pillow.Out
 
     def __init__(self, room, dstRoom=None):
@@ -177,15 +178,22 @@ class DocumentChanger(Peer):
             else:
                 sel = key
 
-        #  print "__insert", sel, data
-
         if isList:
             data.insert(sel, doc)
         else:
             data[key] = doc
 
-        self._document.select(path + '.*', sel) 
+
         self._throw(Editor.Out.FieldChanged, Editor.translatePath(self._document, path))
+
+        if isList:
+            self._select(None, (path, sel))
+
+        if not isList:
+            sel = key
+            self._select(None, (path, sel))
+
+        self._throw(DocumentChanger.Out.RowInserted, (Editor.translatePath(self._document, path), sel))
 
     def __remove(self, pillow, path, isList=True):
         if not path or not self._document:
@@ -203,8 +211,29 @@ class DocumentChanger(Peer):
 
         sel = PathHelper.getValue(self._document.selection, path + '.*._selection')
         if sel != None:
+            if not isList:
+                if not sel in data: return
+
+                keys = sorted(data.keys())
+                idx = keys.index(sel)
+
+                if idx == len(keys)-1:
+                    idx -= 1
+            else:
+                if sel >= len(data): return
+
             del data[sel]
+
             self._throw(Editor.Out.FieldChanged, Editor.translatePath(self._document, path))
+
+            if isList and sel == len(data) and sel != 0:
+                self._select(None, (path, sel-1))
+
+            if not isList:
+                keys = sorted(data.keys())
+                if idx >= 0 and idx < len(keys):
+                    self._select(None, (path, keys[idx]))
+
 
     @defer.inlineCallbacks
     def __subClone(self, pillow, feathers):
