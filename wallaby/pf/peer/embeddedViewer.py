@@ -14,7 +14,7 @@ class EmbeddedViewer(UIPeer):
     LIST = 1
     DICT = 2
 
-    def __init__(self, room, path, delegate, conflictCB=None, isList=True, wrapInList=False, identifier=None, editOnInsert=True):
+    def __init__(self, room, path, delegate, conflictCB=None, isList=True, wrapInList=False, identifier=None, editOnInsert=False):
         UIPeer.__init__(self, room, path)
 
         self._delegate = delegate
