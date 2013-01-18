@@ -12,8 +12,6 @@ class ImageEditor(Editor):
         if self._valueCallback:
             value, name = self._valueCallback()
 
-        print "try to save image", self._path, name
-
         if (self._document):
             self._document.set(self._path, name)
 

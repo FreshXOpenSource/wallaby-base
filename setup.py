@@ -4,7 +4,7 @@
 from setuptools import setup, find_packages
 
 setup(name='wallaby-base',
-      version='0.1.40',
+      version='0.1.41',
       url='https://github.com/FreshXOpenSource/wallaby-base',
       author='FreshX GbR',
       author_email='wallaby@freshx.de',
