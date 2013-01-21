@@ -6,11 +6,12 @@ from peer import *
 from documentCache import DocumentCache
 from documentChanger import DocumentChanger
 from database import Database
-from embeddedViewer import EmbeddedViewer
 from viewer import Viewer
 from editor import Editor
 
 class DirectEditDocument(Peer):
+    Description = ("Provides a direct document edit/view logic", '{"id": null}')
+
     Save = Pillow.In
     SaveAs = Pillow.In
     Load = Pillow.In
@@ -51,7 +52,6 @@ class DirectEditDocument(Peer):
         self._catch(DocumentCache.Out.DocumentChanged, self._changed)
         self._catch(DocumentCache.Out.DocumentSaved, self._saved)
 
-        self._addRouting(EmbeddedViewer.Out.SelectionChanged, Viewer.In.Refresh)
         self._addRouting(DocumentChanger.Out.SelectionChanged, Viewer.In.Refresh)
 
     def _enable(self, enabled):
