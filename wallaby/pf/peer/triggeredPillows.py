@@ -118,6 +118,18 @@ class TriggeredPillows(Peer):
                     feathers = None
 
             feathers = self.__translate(feathers, doc, path, value)
+          
+            if isinstance(t['args'], (str, unicode)):
+                import re 
+                match = re.match('^delay:(.*)$', t['args'])
+                if match is not None:
+                    try:
+                        delay = float(match.group(1))
+                        from twisted.internet import reactor
+                        reactor.callLater(delay, self._throw, t['pillow'], feathers)
+                        return
+                    except: pass
+
             self._throw(t['pillow'], feathers)
 
         return found
