@@ -156,6 +156,9 @@ class MultiViewer(UIPeer):
         else:
             self._throw(MultiViewer.Out.Select, (self._queryResult.getDocumentID(idx), tab, idx))
 
+    def doQuery(self):
+        self._updateQuery()
+
     def _updateQuery(self, pillow=None, feathers=None):
         self._throw(MultiViewer.Out.Query, self._queryDocument)
 
@@ -180,6 +183,9 @@ class MultiViewer(UIPeer):
     def deferredGetDocument(self, row):
         if self._queryResult == None: return None
         return self._queryResult.deferredGetDocument(row)
+
+    def queryDocument(self):
+        return self._queryDocument
 
     def _doRefreshData(self, queryResult):
         if self._delegate != None:

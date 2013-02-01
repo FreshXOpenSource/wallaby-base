@@ -122,6 +122,8 @@ class ValueQueryResult(Peer, QueryResult):
         if isinstance(path, (list, tuple)):
             path = path[0]
 
+        # print "Get image for", documentID, path
+
         if documentID not in self._deferredDocs:
             self._deferredDocs[documentID] = defer.Deferred()
             self._throw(ValueQueryResult.Out.RequestDocument, documentID)
@@ -307,6 +309,8 @@ class ValueQueryResult(Peer, QueryResult):
                 value, i = None, 0
                 while value == None and i < len(pathes):
                     path = pathes[i]
+
+                    # print "Get", path, "of", documentID
 
                     if '(' in path:
                         newpath = re.sub(r'\([^)]+\)\.', '', path, 1)
