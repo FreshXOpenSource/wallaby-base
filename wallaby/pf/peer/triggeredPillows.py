@@ -35,8 +35,9 @@ class TriggeredPillows(Peer):
             import re
             if isinstance(feathers, (str, unicode)):
                 if '%VALUE' in feathers:
-                    match = re.match('(.*?)%VALUE:?(.*?)%(.*)', feathers)
-                    if match.group(2):
+                    reg = re.compile('(.*?)%VALUE:?(.*?)%(.*)', re.DOTALL)
+                    match = reg.match(feathers)
+                    if match and match.group(2):
                         try:
                             if match.group(1) or match.group(3):
                                 if doc is not None:
@@ -52,7 +53,7 @@ class TriggeredPillows(Peer):
                             feathers = None
             
                     else:
-                        if match.group(1) or match.group(3):
+                        if match and (match.group(1) or match.group(3)):
                             feathers = match.group(1) + unicode(value) + match.group(3)
                         else:
                             feathers = value
@@ -92,7 +93,6 @@ class TriggeredPillows(Peer):
                         v = re.sub('%PATH%', path, v)
 
                     feathers[k] = v
-            
         return feathers 
 
     def trigger(self, trigger, args=None, doc=None, path=None, value=None, *ignore):
