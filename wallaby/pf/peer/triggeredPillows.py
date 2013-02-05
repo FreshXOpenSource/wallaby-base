@@ -101,8 +101,6 @@ class TriggeredPillows(Peer):
 
         found = False
 
-        print self._triggers[trigger]
-
         for t in self._triggers[trigger]:    
             if args != None and args != t['args']: continue
             found = True
