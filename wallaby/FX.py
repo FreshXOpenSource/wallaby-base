@@ -19,6 +19,8 @@ app         = None
 appModule   = None
 appPath     = None
 
+user = None
+
 DEBUG       = 1
 TRACE       = 2
 WARN        = 3
