@@ -101,6 +101,9 @@ def renderType(val, type, args, edit=False, fct=replaceValue):
         else:
             val = fct(type, val)
 
+    if isinstance(val, (list)) and type in ('list'):
+        return unicode(",".join(val))
+
     if isinstance(val, (dict, list)):
         if isinstance(type, (str, unicode)) and type in ('stringedit', 'autoedit', 'dictedit', 'listedit'):
             import json

@@ -101,6 +101,8 @@ class TriggeredPillows(Peer):
 
         found = False
 
+        print self._triggers[trigger]
+
         for t in self._triggers[trigger]:    
             if args != None and args != t['args']: continue
             found = True
@@ -127,7 +129,6 @@ class TriggeredPillows(Peer):
                         delay = float(match.group(1))
                         from twisted.internet import reactor
                         reactor.callLater(delay, self._throw, t['pillow'], feathers)
-                        return
                     except: pass
 
             self._throw(t['pillow'], feathers)
