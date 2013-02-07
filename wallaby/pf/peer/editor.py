@@ -156,6 +156,9 @@ class Editor(UIPeer):
         else:
             return path
 
+    def throwChanged(self):
+        self._throwFieldChanged(self._path)
+
     def _throwFieldChanged(self, path):
         self._throw(Editor.Out.FieldChanged, Editor.translatePath(self._document, path))
 

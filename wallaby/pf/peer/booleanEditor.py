@@ -11,4 +11,4 @@ class BooleanEditor(Editor):
         if (self._document):
             self._document.set(self._path, value) 
 
-        self._throwFieldChanged()
+        self._throwFieldChanged(self._path)
