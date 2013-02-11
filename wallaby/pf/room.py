@@ -30,7 +30,7 @@ class House(object):
         if not room in House.rooms:
             if FX.appModule:
                 app = FX.appModule
-                if room == "__CONFIG__": app = "wallaby.apps.inspector"
+                if room in ("__CONFIG__", "__WIDGETQUERY__"): app = "wallaby.apps.inspector"
 
                 try:
                     from twisted.plugin import getCache
