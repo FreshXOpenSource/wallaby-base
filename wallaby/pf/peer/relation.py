@@ -7,6 +7,8 @@ from editDocument import EditDocument
 from viewer import Viewer
 
 class Relation(Peer):
+    Description = ("Provides a document relation logic", '{"dstRoom": null,"viewIdentifier":null}')
+
     from abstractQuery import AbstractQuery
 
     Add = Pillow.In

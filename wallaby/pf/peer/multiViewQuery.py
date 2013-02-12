@@ -11,7 +11,7 @@ from tab import Tab
 
 class MultiViewQuery(Peer):
     Description = ("Routing between a multi-view element (like a table) and a query-peer (like a database)",
-                   '{ "dstRoom": null, "pillow": "EditDocument.In.Load", "unload": true }')
+                   '{ "dstRoom": null, "pillow": "EditDocument.In.Load", "unload": true, "includeIndex": false }')
 
     Sending = [
         EditDocument.In.Load, 
@@ -28,13 +28,14 @@ class MultiViewQuery(Peer):
         (MultiViewer.Out.Query, AbstractQuery.In.Query)
     ]
 
-    def __init__(self, room, dstRoom=None, pillow=EditDocument.In.Load, unload=True):
+    def __init__(self, room, dstRoom=None, pillow=EditDocument.In.Load, unload=True, includeIndex=False):
         Peer.__init__(self, room)
         self._pillow = pillow
 
         if dstRoom is None: dstRoom = room
         self._dstRoom = dstRoom
         self._unload = unload
+        self._includeIndex = includeIndex
 
         self._catch(MultiViewer.Out.Select, self._select)
 
@@ -51,11 +52,16 @@ class MultiViewQuery(Peer):
         if not self._unload and id == None:
             return
 
+        if self._includeIndex:
+            payload = (id, idx)
+        else:
+            payload = id
+
         if self._pillow != None:
             if isinstance(self._pillow, (list, tuple)):
                 for p in self._pillow:
-                    self._throw(self._dstRoom + ":" + p, id)
+                    self._throw(self._dstRoom + ":" + p, payload)
             else:
-                self._throw(self._dstRoom + ":" + self._pillow, id)
+                self._throw(self._dstRoom + ":" + self._pillow, payload)
         if tab != None:
             self._throw(self._dstRoom + ":" + Tab.In.Select, tab)
