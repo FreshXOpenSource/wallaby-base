@@ -125,13 +125,19 @@ class Viewer(UIPeer):
                     if self._raw:
                         self._cb(value)
                     else:
-                        uvalue = unicode(value)
+                        if isinstance(value, (list, tuple)):
+                            uvalue = unicode(",".join(value))
+                        else:
+                            uvalue = unicode(value)
                         self._cb(uvalue)
             elif value != None and self._ignoreCredentials:
                 if self._raw:
                     self._cb(value)
                 else:
-                    uvalue = unicode(value)
+                    if isinstance(value, (list, tuple)):
+                        uvalue = unicode(",".join(value))
+                    else:
+                        uvalue = unicode(value)
                     self._cb(uvalue)
             else:
                 if self._raw:
