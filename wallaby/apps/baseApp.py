@@ -12,7 +12,7 @@ from wallaby.pf.peer.viewer import *
 from wallaby.pf.peer.editor import *
 
 class BaseApp(object):
-    def __init__(self, quitCB, dbName='default', embedded=False, appName=None, *args, **ka):
+    def __init__(self, quitCB, dbName='default', embedded=False, appName=None, module="WallabyApp2", *args, **ka):
         self._dbName = dbName
 
         self._debuggedRooms = []
@@ -25,9 +25,9 @@ class BaseApp(object):
             CredentialsParty(dbName)
 
             if appName == "inspector":
-                ConfigParty("__CONFIG__", dbName, docId="WallabyApp2", inspectorDb=None)
+                ConfigParty("__CONFIG__", dbName, docId=module, inspectorDb=None)
             else:
-                ConfigParty("__CONFIG__", dbName, docId="WallabyApp2", inspectorDb="bootstrap")
+                ConfigParty("__CONFIG__", dbName, docId=module, inspectorDb="bootstrap")
 
             House.catch("__CONFIG__", Viewer.In.Refresh, self._configRefreshed)
             House.catch("__CONFIG__", Viewer.In.Document, self._configRefreshed)
