@@ -114,6 +114,7 @@ class MultiViewer(UIPeer):
         self._updateQuery()
 
     def initialize(self):
+        print "Initialize MultiViewer", self._view
         if self._queryDocID is not None and len(self._queryDocID) > 0:
             self._throw(DocumentCache.In.RequestDocument, self._queryDocID)
         else:
@@ -121,7 +122,7 @@ class MultiViewer(UIPeer):
 
     def _queryDocArrived(self, pillow, doc):
         if doc == None: return
-        if doc != self._queryDocument and doc.documentID != self._queryDocID: return
+        if not (doc == self._queryDocument or doc.documentID != self._queryDocID): return
 
         self._queryDocument = doc
 

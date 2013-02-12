@@ -116,6 +116,5 @@ class Relation(Peer):
                 self._queryDoc.set('args.startkey', [self._documentID])
                 self._queryDoc.set('args.endkey', [self._documentID, {}])
 
-
             from multiViewer import MultiViewer
             self._dstRoom.throw(MultiViewer.In.Refresh, None)

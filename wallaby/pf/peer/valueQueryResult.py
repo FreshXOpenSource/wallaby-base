@@ -299,8 +299,14 @@ class ValueQueryResult(Peer, QueryResult):
             del self._deferredDocs[documentID]
             reactor.callLater(0, d.callback, document)
 
+        _remove = []
+
         if documentID in self._defers:
-            for path, d in self._defers[documentID].items():
+            import copy
+            defers = copy.copy(self._defers[documentID])
+            for path, d in defers.items():
+                ignore = False
+                _remove.append(path)
                 if '|' in path:
                     pathes = path.split('|')
                 else:
@@ -309,8 +315,6 @@ class ValueQueryResult(Peer, QueryResult):
                 value, i = None, 0
                 while value == None and i < len(pathes):
                     path = pathes[i]
-
-                    # print "Get", path, "of", documentID
 
                     if '(' in path:
                         newpath = re.sub(r'\([^)]+\)\.', '', path, 1)
@@ -323,8 +327,8 @@ class ValueQueryResult(Peer, QueryResult):
                         else:
                             reactor.callLater(0, d.callback, None)
 
-                        del self._defers[documentID]
-                        return
+                        ignore = True
+                        break
                     else:
                         if '_source' in document._data and "_source" not in path:
                             value = document.get('_source.' + path)
@@ -333,9 +337,10 @@ class ValueQueryResult(Peer, QueryResult):
 
                     i += 1
 
-                reactor.callLater(0, d.callback, value)
+                if not ignore: reactor.callLater(0, d.callback, value)
 
-            del self._defers[documentID]
+            for path in _remove:
+                del self._defers[documentID][path]
 
     def getDocumentID(self, index):
         if self._values == None or index >= len(self._values):
