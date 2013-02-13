@@ -26,6 +26,7 @@ class EmbeddedViewer(UIPeer):
         self._identifier = identifier
 
         self._inserted = None
+        self._ignoreSelect = False
 
         if editOnInsert:
             self._catch(DocumentChanger.Out.RowInserted, self._rowInserted)
@@ -88,6 +89,10 @@ class EmbeddedViewer(UIPeer):
         self._enabled = isEnabled
 
     def select(self, idx):
+        if self._ignoreSelect: 
+            self._ignoreSelect = False
+            return
+
         if self._document:
             try:
                 currentIdx = PathHelper.getValue(self._document.selection, self._path + '.*._selection') 
@@ -115,6 +120,7 @@ class EmbeddedViewer(UIPeer):
                 try:
                     idx = PathHelper.getValue(self._document.selection, path + '._selection') 
                     if self._delegate:
+                        self._ignoreSelect = True
                         self._delegate.selectRow(idx)
                 except: pass
 
