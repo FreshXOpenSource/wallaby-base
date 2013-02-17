@@ -122,7 +122,7 @@ class Room(object):
     Suggests = Pillow.OutState
 
     Suggest = Pillow.In
-    Initialize = Pillow.In
+    Initialize = Pillow.InOut
 
     # registerType = OrderedDict
     # registerType = set
@@ -200,6 +200,7 @@ class Room(object):
         if self._unclean or force:
             self.initialize()
             self.initializePeers()
+            self.throw(Room.Out.Initialize, None)
             self._unclean = False
             self.throwSuggests()
 
@@ -247,6 +248,9 @@ class Room(object):
         rooms = OrderedSet()
         rooms.add(self._name)
         return rooms
+
+    def name(self):
+        return self._name
 
     def initializePeers(self):
         done = set()
