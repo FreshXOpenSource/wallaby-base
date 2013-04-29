@@ -81,7 +81,7 @@ class Editor(UIPeer):
 
                     if self._credentials:
                         credential = self._credentials.getFlat(self._path)
-                        if credential == None or 'edit' in credential: #Hide whole widget
+                        if self._path == '_id' or credential == None or 'edit' in credential: #Hide whole widget
                             self._setReadOnly(self._readonly)
                             if not self._resolved:
                                 if self._document.hasConflicts():
