@@ -10,12 +10,14 @@ class ImageEditor(Editor):
     def _fieldChanged(self):
         name = value = None
         if self._valueCallback:
-            value, name = self._valueCallback()
+            value, name, usePathAsAttachmentName = self._valueCallback()
 
-        if (self._document):
+        if (self._document and not usePathAsAttachmentName):
             self._document.set(self._path, name)
 
-            if name:
-                self._document.setAttachment(name, value)
+        if name and not usePathAsAttachmentName:
+            self._document.setAttachment(name, value)
+        elif usePathAsAttachmentName:
+            self._document.setAttachment(self._path, value)
 
         self._throwFieldChanged(self._path)
